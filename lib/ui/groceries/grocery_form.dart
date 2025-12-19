@@ -118,6 +118,9 @@ class _NewItemState extends State<NewItem> {
                 Expanded(
                   child: DropdownButtonFormField<GroceryCategory>(
                     initialValue: _selectedCategory,
+                    // Show items with a small colored square (15x15) and label.
+                    // Use selectedItemBuilder so the selected value in the field
+                    // shows the same visual (square + uppercase label).
                     items: GroceryCategory.values
                         .map(
                           (category) => DropdownMenuItem(
@@ -139,6 +142,26 @@ class _NewItemState extends State<NewItem> {
                           ),
                         )
                         .toList(),
+                    selectedItemBuilder: (context) {
+                      return GroceryCategory.values.map((category) {
+                        return Row(
+                          children: [
+                            Container(
+                              width: 15,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                color: category.color,
+                                shape: BoxShape.rectangle,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            // Display selected label in uppercase to match the
+                            // reference screenshots.
+                            Text(category.label.toUpperCase()),
+                          ],
+                        );
+                      }).toList();
+                    },
                     onChanged: (value) {
                       if (value != null) {
                         setState(() {
